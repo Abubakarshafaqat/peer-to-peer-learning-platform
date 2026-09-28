@@ -1,0 +1,24 @@
+{
+  "name": "peer-learning-platform",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Peer-to-Peer Learning Platform — FYP monorepo",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -n server,client -c teal,amber \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
+    "dev:server": "npm run dev --prefix server",
+    "dev:client": "npm run dev --prefix client",
+    "lint": "npm run lint --prefix server && npm run lint --prefix client",
+    "format": "prettier --write \"**/*.{js,jsx,json,md,css}\" --ignore-path .gitignore",
+    "format:check": "prettier --check \"**/*.{js,jsx,json,md,css}\" --ignore-path .gitignore",
+    "seed": "npm run seed --prefix server",
+    "test": "npm run test --prefix server"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "prettier": "^3.5.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
