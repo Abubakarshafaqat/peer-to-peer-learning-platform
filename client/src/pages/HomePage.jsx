@@ -34,7 +34,7 @@ export default function HomePage() {
           course, and subject.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
-          <Link to="/login">
+          <Link to="/register">
             <Button variant="accent" size="lg">
               Create account
             </Button>

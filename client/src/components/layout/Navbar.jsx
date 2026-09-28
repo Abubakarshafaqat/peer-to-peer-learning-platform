@@ -1,14 +1,17 @@
 import { Link, NavLink } from 'react-router-dom';
 import { cn } from '../../utils/cn.js';
 import Button from '../ui/Button.jsx';
+import { useAuth } from '../../features/auth/AuthContext.jsx';
 
-const links = [
+const publicLinks = [
   { to: '/', label: 'Home' },
   { to: '/library', label: 'Library' },
   { to: '/quizzes', label: 'Quizzes' },
 ];
 
 export default function Navbar() {
+  const { user, isAuthenticated, isAdmin, logout } = useAuth();
+
   return (
     <header className="sticky top-0 z-40 border-b border-line/80 bg-canvas/90 backdrop-blur-md">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
@@ -20,17 +23,14 @@ export default function Navbar() {
                 stroke="currentColor"
                 strokeWidth="2"
               />
-              <path
-                d="M16 11L22 14.5V21.5L16 25L10 21.5V14.5L16 11Z"
-                fill="currentColor"
-              />
+              <path d="M16 11L22 14.5V21.5L16 25L10 21.5V14.5L16 11Z" fill="currentColor" />
             </svg>
           </span>
           <span className="font-display text-lg font-extrabold tracking-tight">Peer Learning</span>
         </Link>
 
         <nav className="hidden items-center gap-1 md:flex" aria-label="Primary">
-          {links.map((link) => (
+          {publicLinks.map((link) => (
             <NavLink
               key={link.to}
               to={link.to}
@@ -45,19 +45,45 @@ export default function Navbar() {
               {link.label}
             </NavLink>
           ))}
+          {isAuthenticated ? (
+            <NavLink
+              to={isAdmin ? '/admin' : '/dashboard'}
+              className={({ isActive }) =>
+                cn(
+                  'rounded-lg px-3 py-2 text-sm font-medium text-muted transition hover:text-ink',
+                  isActive && 'bg-primary/10 text-primary',
+                )
+              }
+            >
+              Dashboard
+            </NavLink>
+          ) : null}
         </nav>
 
         <div className="flex items-center gap-2">
-          <Link to="/login" className="hidden sm:inline-flex">
-            <Button variant="ghost" size="sm">
-              Sign in
-            </Button>
-          </Link>
-          <Link to="/login">
-            <Button size="sm" variant="accent">
-              Get started
-            </Button>
-          </Link>
+          {isAuthenticated ? (
+            <>
+              <Link to="/profile" className="hidden text-sm font-medium text-muted hover:text-ink sm:inline">
+                {user?.username}
+              </Link>
+              <Button size="sm" variant="outline" onClick={() => logout()}>
+                Sign out
+              </Button>
+            </>
+          ) : (
+            <>
+              <Link to="/login" className="hidden sm:inline-flex">
+                <Button variant="ghost" size="sm">
+                  Sign in
+                </Button>
+              </Link>
+              <Link to="/register">
+                <Button size="sm" variant="accent">
+                  Get started
+                </Button>
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </header>
