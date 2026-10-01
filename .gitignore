@@ -7,5 +7,6 @@ coverage
 *.log
 .DS_Store
 uploads
+storage
 .vscode
 .idea

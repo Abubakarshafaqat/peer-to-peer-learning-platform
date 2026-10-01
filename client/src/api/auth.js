@@ -30,6 +30,13 @@ export async function updateMe(payload) {
   return data;
 }
 
+export async function uploadAvatar(formData) {
+  const { data } = await api.post('/auth/me/avatar', formData, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  });
+  return data;
+}
+
 export async function changePassword(payload) {
   const { data } = await api.post('/auth/change-password', payload);
   return data;
@@ -42,5 +49,20 @@ export async function forgotPassword(payload) {
 
 export async function resetPassword(payload) {
   const { data } = await api.post('/auth/reset-password', payload);
+  return data;
+}
+
+export async function verifyEmail(payload) {
+  const { data } = await api.post('/auth/verify-email', payload);
+  return data;
+}
+
+export async function resendVerification() {
+  const { data } = await api.post('/auth/resend-verification');
+  return data;
+}
+
+export async function setPassword(payload) {
+  const { data } = await api.post('/auth/set-password', payload);
   return data;
 }

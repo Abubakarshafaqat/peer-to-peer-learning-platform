@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { tenantPlugin } from '../plugins/tenantPlugin.js';
 
 const refreshTokenSchema = new mongoose.Schema(
   {
@@ -10,6 +11,10 @@ const refreshTokenSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
+// optional: superadmin sessions have tenantId null; token lookup uses skipTenant
+refreshTokenSchema.plugin(tenantPlugin, { optional: true });
+
 refreshTokenSchema.index({ expiresAt: 1 }, { expireAfterSeconds: 0 });
+refreshTokenSchema.index({ tenantId: 1, user: 1 });
 
 export const RefreshToken = mongoose.model('RefreshToken', refreshTokenSchema);

@@ -4,6 +4,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as authApi from '../api/auth.js';
+import { useTenant } from '../features/tenant/TenantContext.jsx';
 import Button from '../components/ui/Button.jsx';
 import Card from '../components/ui/Card.jsx';
 import Input from '../components/ui/Input.jsx';
@@ -26,6 +27,7 @@ const resetSchema = z
 
 /** // SRS-21..25 Password reset via email OTP */
 export default function ForgotPasswordPage() {
+  const { tenantPath } = useTenant();
   const [step, setStep] = useState('request');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
@@ -113,7 +115,7 @@ export default function ForgotPasswordPage() {
         {step === 'done' ? (
           <div className="space-y-4 text-center">
             <p className="text-sm text-success">Password updated. You can sign in now.</p>
-            <Link to="/login">
+            <Link to={tenantPath('/login')}>
               <Button className="w-full" variant="accent">
                 Go to sign in
               </Button>
@@ -122,7 +124,7 @@ export default function ForgotPasswordPage() {
         ) : null}
 
         <p className="mt-4 text-center text-sm text-muted">
-          <Link to="/login" className="font-semibold text-primary hover:underline">
+          <Link to={tenantPath('/login')} className="font-semibold text-primary hover:underline">
             Back to sign in
           </Link>
         </p>

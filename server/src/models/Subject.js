@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { tenantPlugin } from '../plugins/tenantPlugin.js';
 
 const subjectSchema = new mongoose.Schema(
   {
@@ -15,6 +16,8 @@ const subjectSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-subjectSchema.index({ course: 1, slug: 1 }, { unique: true });
+subjectSchema.plugin(tenantPlugin);
+
+subjectSchema.index({ tenantId: 1, course: 1, slug: 1 }, { unique: true });
 
 export const Subject = mongoose.model('Subject', subjectSchema);

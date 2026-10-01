@@ -12,6 +12,9 @@
     "format": "prettier --write \"**/*.{js,jsx,json,md,css}\" --ignore-path .gitignore",
     "format:check": "prettier --check \"**/*.{js,jsx,json,md,css}\" --ignore-path .gitignore",
     "seed": "npm run seed --prefix server",
+    "seed:tenants": "npm run seed:tenants --prefix server",
+    "migrate:tenants": "npm run migrate:tenants --prefix server",
+    "migrate:tenants:apply": "npm run migrate:tenants:apply --prefix server",
     "test": "npm run test --prefix server"
   },
   "devDependencies": {

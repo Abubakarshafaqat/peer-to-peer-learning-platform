@@ -24,9 +24,10 @@ beforeAll(async () => {
 
 afterEach(async () => {
   if (!mongoAvailable) return;
-  const collections = mongoose.connection.collections;
-  for (const key of Object.keys(collections)) {
-    await collections[key].deleteMany({});
+  // Native driver bypasses tenantPlugin (test cleanup only)
+  const collections = await mongoose.connection.db.collections();
+  for (const collection of collections) {
+    await collection.deleteMany({});
   }
 });
 
@@ -169,7 +170,7 @@ describe('Auth API (SRS-01..29)', () => {
   authIt('ignores role field on register — always student', async () => {
     await request(app)
       .post('/api/v1/auth/register')
-      .send({ ...student, role: 'admin' });
+      .send({ ...student, role: 'tenantAdmin' });
     const user = await User.findOne({ email: student.email });
     expect(user.role).toBe('student');
   });

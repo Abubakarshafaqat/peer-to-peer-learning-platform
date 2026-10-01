@@ -1,5 +1,7 @@
 @import 'tailwindcss';
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-display: 'Syne', sans-serif;
   --font-sans: 'Outfit', sans-serif;
@@ -19,6 +21,22 @@
   --color-mint: #9fd8d3;
 }
 
+.dark {
+  --color-ink: #e7eef0;
+  --color-muted: #9aafb6;
+  --color-surface: #15262c;
+  --color-canvas: #0b171b;
+  --color-primary: #3aa0aa;
+  --color-primary-hover: #2f8891;
+  --color-accent: #e0b06a;
+  --color-accent-deep: #c99745;
+  --color-success: #3aa87c;
+  --color-warning: #d4a04a;
+  --color-danger: #d4675a;
+  --color-line: #243940;
+  --color-mint: #7ec8c3;
+}
+
 @layer base {
   html {
     font-family: var(--font-sans);
@@ -29,6 +47,8 @@
 
   body {
     min-height: 100vh;
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
   }
 
   h1,
@@ -36,5 +56,114 @@
   h3,
   .font-display {
     font-family: var(--font-display);
+  }
+}
+
+@layer utilities {
+  .animate-float-slow {
+    animation: float-y 10s ease-in-out infinite;
+  }
+
+  .animate-float-delayed {
+    animation: float-y 12s ease-in-out infinite;
+    animation-delay: -4s;
+  }
+
+  .animate-rise {
+    animation: rise-in 0.85s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .animate-fade-soft {
+    animation: fade-soft 1s ease both;
+  }
+
+  .animate-pulse-dot {
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+
+  .animate-marquee {
+    animation: marquee 32s linear infinite;
+  }
+
+  .delay-1 {
+    animation-delay: 0.12s;
+  }
+
+  .delay-2 {
+    animation-delay: 0.24s;
+  }
+
+  .delay-3 {
+    animation-delay: 0.36s;
+  }
+
+  .delay-4 {
+    animation-delay: 0.48s;
+  }
+
+  .delay-5 {
+    animation-delay: 0.6s;
+  }
+}
+
+@keyframes float-y {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-18px) scale(1.04);
+  }
+}
+
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-soft {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 0.55;
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-float-slow,
+  .animate-float-delayed,
+  .animate-rise,
+  .animate-fade-soft,
+  .animate-pulse-dot,
+  .animate-marquee {
+    animation: none !important;
   }
 }
